@@ -34,42 +34,94 @@
   .pie__grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  /* ===== HORARIOS EN TABLET ===== */
+  .horarios,
+  .horarios__contenedor,
+  .contenedor-horarios,
+  .tabla-horarios-contenedor,
+  .tabla-responsive,
+  .seccion-horarios {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .horarios table,
+  .seccion-horarios table,
+  .tabla-horarios,
+  .tabla-horario {
+    min-width: 760px;
+  }
 }
 
 /* ===== MENÚ HAMBURGUESA (<= 768px) ===== */
 @media (max-width: 768px) {
+  /* La barra queda por encima del contenido */
+  .barra {
+    position: relative;
+    z-index: 1000;
+  }
+
   /* Mostrar botón hamburguesa */
   .boton-menu {
     display: flex;
+    z-index: 1002;
   }
 
-  /* El menú se oculta y se despliega desde arriba */
-  .menu {g
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+  /* Menú móvil corregido */
+  .menu {
+    position: fixed;
+    top: 76px;
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: none;
+
+    display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 0;
+    gap: 4px;
+
     background-color: var(--color-blanco);
-    border-top: 1px solid var(--borde);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
     box-shadow: var(--sombra);
-    padding: 8px;
-    max-height: 0;
-    overflow: hidden;
+
+    padding: 10px;
+    max-height: calc(100dvh - 100px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
     opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.2s ease;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+
+    transition:
+      opacity 0.25s ease,
+      visibility 0.25s ease,
+      transform 0.25s ease;
   }
 
   .menu.abierto {
-    max-height: 640px;
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   .menu__enlace {
-    padding: 12px 14px;
-    border-radius: 8px;
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+
+  .menu__enlace:hover,
+  .menu__enlace.activo {
+    background-color: rgba(25, 79, 55, 0.09);
   }
 
   /* Animación del icono hamburguesa a "X" */
@@ -83,11 +135,6 @@
 
   .boton-menu.activo span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
-  }
-
-  /* Encabezado pasa a posición relativa para anclar el menú */
-  .barra {
-    position: relative;
   }
 }
 
@@ -129,6 +176,62 @@
   .datos li span:last-child {
     text-align: left;
   }
+
+  /* ===== HORARIOS EN CELULAR Y TABLET PEQUEÑA ===== */
+  .horarios,
+  .horarios__contenedor,
+  .contenedor-horarios,
+  .tabla-horarios-contenedor,
+  .tabla-responsive,
+  .seccion-horarios {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .horarios table,
+  .seccion-horarios table,
+  .tabla-horarios,
+  .tabla-horario {
+    width: max-content;
+    min-width: 720px;
+    border-collapse: collapse;
+  }
+
+  .horarios th,
+  .horarios td,
+  .seccion-horarios th,
+  .seccion-horarios td,
+  .tabla-horarios th,
+  .tabla-horarios td,
+  .tabla-horario th,
+  .tabla-horario td {
+    white-space: nowrap;
+    font-size: 0.88rem;
+    padding: 10px 12px;
+  }
+
+  .horarios::-webkit-scrollbar,
+  .horarios__contenedor::-webkit-scrollbar,
+  .contenedor-horarios::-webkit-scrollbar,
+  .tabla-horarios-contenedor::-webkit-scrollbar,
+  .tabla-responsive::-webkit-scrollbar,
+  .seccion-horarios::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .horarios::-webkit-scrollbar-thumb,
+  .horarios__contenedor::-webkit-scrollbar-thumb,
+  .contenedor-horarios::-webkit-scrollbar-thumb,
+  .tabla-horarios-contenedor::-webkit-scrollbar-thumb,
+  .tabla-responsive::-webkit-scrollbar-thumb,
+  .seccion-horarios::-webkit-scrollbar-thumb {
+    background-color: rgba(25, 79, 55, 0.35);
+    border-radius: 999px;
+  }
 }
 
 /* ===== CELULAR (<= 560px) ===== */
@@ -159,7 +262,7 @@
   }
 
   .marca__lema {
-    display: none; /* ahorra espacio en pantallas muy pequeñas */
+    display: none;
   }
 
   .actividad {
@@ -177,5 +280,39 @@
 
   .hero__acciones .boton {
     width: 100%;
+  }
+
+  /* Menú más cómodo en pantallas pequeñas */
+  .menu {
+    top: 70px;
+    left: 12px;
+    right: 12px;
+    max-height: calc(100dvh - 88px);
+    border-radius: 14px;
+  }
+
+  .menu__enlace {
+    padding: 12px 13px;
+    font-size: 0.9rem;
+  }
+
+  /* Horarios en celular */
+  .horarios table,
+  .seccion-horarios table,
+  .tabla-horarios,
+  .tabla-horario {
+    min-width: 680px;
+  }
+
+  .horarios th,
+  .horarios td,
+  .seccion-horarios th,
+  .seccion-horarios td,
+  .tabla-horarios th,
+  .tabla-horarios td,
+  .tabla-horario th,
+  .tabla-horario td {
+    font-size: 0.82rem;
+    padding: 9px 10px;
   }
 }
