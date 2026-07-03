@@ -1,492 +1,500 @@
 /* ============================================================
-   HORARIOS.JS - Liceo Hernán Vargas Ramírez
+   HORARIOS.CSS - Liceo Hernán Vargas Ramírez
    ------------------------------------------------------------
-   Lee el archivo CSV de horarios y muestra una tabla bonita
-   filtrando por nivel y sección.
-
-   Archivo usado:
-   data/horarios.csv
+   Estilos propios para la pantalla de Horarios y trámites.
+   Mantiene la tabla en computadora.
+   En celular y tablet la tabla se hace más compacta y usa scroll.
    ============================================================ */
 
-(() => {
-  const RUTA_CSV = "data/horarios.csv";
+/* Tarjeta principal del horario */
+.horario {
+  margin-top: 24px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(43, 86, 58, 0.18);
+}
 
-  const DIAS = [
-    { clave: "lunes", texto: "Lunes" },
-    { clave: "martes", texto: "Martes" },
-    { clave: "miercoles", texto: "Miércoles" },
-    { clave: "jueves", texto: "Jueves" },
-    { clave: "viernes", texto: "Viernes" },
-  ];
+/* Encabezado del horario */
+.horario .tarjeta__encabezado {
+  padding: 24px 28px 18px;
+  background: linear-gradient(135deg, rgba(43, 86, 58, 0.08), rgba(212, 175, 55, 0.10));
+  border-bottom: 1px solid rgba(43, 86, 58, 0.14);
+}
 
-  let horarios = [];
-  let nivelSeleccionado = null;
-  let seccionSeleccionada = null;
+.horario .etiqueta {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #2b563a;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 
-  /* Detecta si la página está dentro de /pages/ */
-  function rutaBaseHorarios() {
-    return window.location.pathname.includes("/pages/") ? "../" : "";
+.horario .tarjeta__titulo {
+  margin: 0 0 8px;
+  color: #173824;
+  font-size: 1.35rem;
+}
+
+.horario .tarjeta__texto {
+  margin: 0;
+  color: #374151;
+}
+
+/* Contenedor de tabla */
+.horario__tabla-contenedor {
+  width: 100%;
+  padding: 20px;
+  background: #ffffff;
+}
+
+/* Tabla */
+.horario__tabla {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.92rem;
+  color: #1f2937;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Encabezados */
+.horario__tabla thead th {
+  padding: 14px 12px;
+  background: #2b563a;
+  color: #ffffff !important;
+  text-align: center;
+  font-weight: 700;
+  border-right: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.horario__tabla thead th:last-child {
+  border-right: none;
+}
+
+/* Celdas */
+.horario__tabla td {
+  padding: 12px 10px;
+  text-align: center;
+  vertical-align: middle;
+  border-right: 1px solid #edf0f2;
+  border-bottom: 1px solid #edf0f2;
+  line-height: 1.35;
+}
+
+.horario__tabla td:last-child {
+  border-right: none;
+}
+
+/* Filas alternas */
+.horario__tabla tbody tr:nth-child(even):not(.horario__fila--receso):not(.horario__fila--almuerzo) {
+  background: #f9fafb;
+}
+
+/* Hover */
+.horario__tabla tbody tr:hover:not(.horario__fila--receso):not(.horario__fila--almuerzo) {
+  background: #f1f7f3;
+}
+
+/* Columnas de lección y hora */
+.horario__tabla td:nth-child(1),
+.horario__tabla th:nth-child(1) {
+  width: 80px;
+  font-weight: 700;
+}
+
+.horario__tabla td:nth-child(2),
+.horario__tabla th:nth-child(2) {
+  width: 140px;
+  font-weight: 700;
+  color: #173824;
+}
+
+/* Recesos */
+.horario__fila--receso td {
+  background: #f7f1dd;
+  color: #5f4a12;
+  font-weight: 700;
+  border-bottom: 1px solid #eadca8;
+}
+
+/* Almuerzo */
+.horario__fila--almuerzo td {
+  background: #e8f3ec;
+  color: #1f4a31;
+  font-weight: 700;
+  border-bottom: 1px solid #cfe3d6;
+}
+
+/* Texto del receso / almuerzo centrado */
+.horario__fila--receso td[colspan],
+.horario__fila--almuerzo td[colspan] {
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* Oculta vista móvil si en algún momento existe en el JS */
+.horario__vista-movil {
+  display: none;
+}
+
+/* Mantiene visible la tabla */
+.horario__vista-escritorio {
+  display: block;
+}
+
+/* Filtros de horarios */
+#filtrosNivelHorario,
+#filtrosSeccionHorario {
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+#filtrosSeccionHorario {
+  margin-top: 8px;
+}
+
+/* Estado inicial dentro de la tarjeta */
+#resultadoHorario .estado {
+  text-align: center;
+  color: #4b5563;
+}
+
+/* ============================================================
+   ESTADO INICIAL DE HORARIOS
+   ============================================================ */
+
+.horario-estado {
+  margin-top: 26px;
+  padding: 34px 28px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f8f5 55%, #fbf6e3 100%);
+  border: 1px solid rgba(43, 86, 58, 0.16);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(17, 24, 39, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.horario-estado::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 180px;
+  height: 180px;
+  background: rgba(212, 175, 55, 0.18);
+  border-radius: 50%;
+}
+
+.horario-estado::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 190px;
+  height: 190px;
+  background: rgba(43, 86, 58, 0.10);
+  border-radius: 50%;
+}
+
+.horario-estado__icono {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: #2b563a;
+  color: #ffffff;
+  box-shadow: 0 12px 28px rgba(43, 86, 58, 0.25);
+  position: relative;
+  z-index: 1;
+}
+
+.horario-estado__icono svg {
+  width: 38px;
+  height: 38px;
+}
+
+.horario-estado__contenido {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.horario-estado__contenido h3 {
+  margin: 0 0 8px;
+  color: #173824;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.horario-estado__contenido p {
+  margin: 0;
+  max-width: 720px;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.horario-estado__secciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.horario-estado__secciones span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2b563a;
+  border: 1px solid rgba(43, 86, 58, 0.18);
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+
+.horario-estado__pasos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.horario-estado__paso {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #eef2f0;
+  color: #5b6770;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.horario-estado__paso.activo {
+  background: #2b563a;
+  color: #ffffff;
+}
+
+.horario-estado__paso.completo {
+  background: #dfece4;
+  color: #1f4a31;
+}
+
+.horario-estado__separador {
+  color: #9ca3af;
+  font-weight: 800;
+}
+
+/* Estado de carga */
+.horario-estado--cargando .horario-estado__icono {
+  background: #d4af37;
+  color: #173824;
+}
+
+/* Estado de error */
+.horario-estado--error {
+  background: linear-gradient(135deg, #ffffff 0%, #fff1f1 100%);
+  border-color: rgba(185, 28, 28, 0.18);
+}
+
+.horario-estado--error .horario-estado__icono {
+  background: #b91c1c;
+}
+
+/* ============================================================
+   RESPONSIVE - TABLA COMPACTA CON SCROLL
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .horario {
+    max-width: 100%;
+    margin-top: 20px;
+    overflow: hidden;
   }
 
-  /* Evita errores si algún dato viene vacío */
-  function limpiar(valor) {
-    return String(valor ?? "").trim();
+  .horario .tarjeta__encabezado {
+    padding: 20px 18px 16px;
   }
 
-  /* Evita que el contenido del CSV rompa el HTML */
-  function escaparHTML(valor) {
-    return limpiar(valor)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+  .horario .tarjeta__titulo {
+    font-size: 1.18rem;
   }
 
-  /* Convierte encabezados del CSV a claves limpias */
-  function normalizarClave(valor) {
-    return limpiar(valor)
-      .replace(/^\uFEFF/, "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .replaceAll(" ", "_");
+  .horario .tarjeta__texto {
+    font-size: 0.9rem;
   }
 
-  /* Convierte CSV a objetos JavaScript */
-  function parsearCSV(texto) {
-    const filas = [];
-    let fila = [];
-    let campo = "";
-    let dentroDeComillas = false;
-
-    for (let i = 0; i < texto.length; i++) {
-      const caracter = texto[i];
-      const siguiente = texto[i + 1];
-
-      if (caracter === '"' && dentroDeComillas && siguiente === '"') {
-        campo += '"';
-        i++;
-      } else if (caracter === '"') {
-        dentroDeComillas = !dentroDeComillas;
-      } else if (caracter === "," && !dentroDeComillas) {
-        fila.push(campo);
-        campo = "";
-      } else if ((caracter === "\n" || caracter === "\r") && !dentroDeComillas) {
-        if (caracter === "\r" && siguiente === "\n") i++;
-
-        fila.push(campo);
-        campo = "";
-
-        if (fila.some((celda) => limpiar(celda) !== "")) {
-          filas.push(fila);
-        }
-
-        fila = [];
-      } else {
-        campo += caracter;
-      }
-    }
-
-    if (campo || fila.length) {
-      fila.push(campo);
-      if (fila.some((celda) => limpiar(celda) !== "")) {
-        filas.push(fila);
-      }
-    }
-
-    const encabezados = filas.shift().map(normalizarClave);
-
-    return filas.map((valores) => {
-      const objeto = {};
-
-      encabezados.forEach((encabezado, indice) => {
-        objeto[encabezado] = limpiar(valores[indice]);
-      });
-
-      objeto.nivel = detectarNivel(objeto.seccion);
-
-      return objeto;
-    });
+  .horario__vista-escritorio {
+    display: block !important;
   }
 
-  /* Detecta el nivel según la sección */
-  function detectarNivel(seccion) {
-    const valor = limpiar(seccion);
-
-    if (valor.startsWith("7-")) return "Séptimo";
-    if (valor.startsWith("8-")) return "Octavo";
-    if (valor.startsWith("9-")) return "Noveno";
-    if (valor.startsWith("10-")) return "Décimo";
-    if (valor.startsWith("11-")) return "Undécimo";
-
-    return "Sin nivel";
+  .horario__vista-movil {
+    display: none !important;
   }
 
-  function ordenarNiveles(a, b) {
-    const orden = ["Séptimo", "Octavo", "Noveno", "Décimo", "Undécimo"];
-    return orden.indexOf(a) - orden.indexOf(b);
+  .horario__tabla-contenedor {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px;
+    background: #ffffff;
   }
 
-  function ordenarSecciones(a, b) {
-    const [nivelA, grupoA] = a.split("-").map(Number);
-    const [nivelB, grupoB] = b.split("-").map(Number);
-
-    if (nivelA !== nivelB) return nivelA - nivelB;
-    return grupoA - grupoB;
+  .horario__tabla {
+    width: 740px;
+    min-width: 740px;
+    table-layout: fixed;
+    font-size: 0.78rem;
   }
 
-  function obtenerNiveles() {
-    return [...new Set(horarios.map((h) => h.nivel))]
-      .filter((nivel) => nivel !== "Sin nivel")
-      .sort(ordenarNiveles);
+  .horario__tabla thead th {
+    padding: 9px 6px;
+    font-size: 0.76rem;
+    line-height: 1.2;
   }
 
-  function obtenerSeccionesPorNivel(nivel) {
-    return [...new Set(
-      horarios
-        .filter((h) => h.nivel === nivel)
-        .map((h) => h.seccion)
-    )].sort(ordenarSecciones);
+  .horario__tabla td {
+    padding: 8px 6px;
+    font-size: 0.76rem;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
   }
 
-  async function cargarHorarios() {
-    const respuesta = await fetch(rutaBaseHorarios() + RUTA_CSV);
-
-    if (!respuesta.ok) {
-      throw new Error("No se pudo cargar el archivo de horarios.");
-    }
-
-    const texto = await respuesta.text();
-    horarios = parsearCSV(texto);
+  .horario__tabla th:nth-child(1),
+  .horario__tabla td:nth-child(1) {
+    width: 58px;
   }
 
-  function renderizarNiveles() {
-    const contenedor = document.getElementById("filtrosNivelHorario");
-    if (!contenedor) return;
-
-    const niveles = obtenerNiveles();
-
-    contenedor.innerHTML = niveles
-      .map((nivel) => {
-        const activo = nivel === nivelSeleccionado ? " activo" : "";
-
-        return `
-          <button class="filtro${activo}" type="button" data-nivel="${escaparHTML(nivel)}">
-            ${escaparHTML(nivel)}
-          </button>
-        `;
-      })
-      .join("");
-
-    contenedor.querySelectorAll("[data-nivel]").forEach((boton) => {
-      boton.addEventListener("click", () => {
-        seleccionarNivel(boton.dataset.nivel);
-      });
-    });
+  .horario__tabla th:nth-child(2),
+  .horario__tabla td:nth-child(2) {
+    width: 92px;
   }
 
-  function seleccionarNivel(nivel) {
-    nivelSeleccionado = nivel;
-    seccionSeleccionada = null;
-
-    renderizarNiveles();
-    renderizarSecciones();
-
-    mostrarEstado(
-      `Seleccione una sección de ${nivelSeleccionado} para consultar el horario correspondiente.`
-    );
+  .horario__tabla th:nth-child(n+3),
+  .horario__tabla td:nth-child(n+3) {
+    width: 118px;
   }
 
-  function renderizarSecciones() {
-    const contenedor = document.getElementById("filtrosSeccionHorario");
-    if (!contenedor) return;
-
-    if (!nivelSeleccionado) {
-      contenedor.innerHTML = "";
-      return;
-    }
-
-    const secciones = obtenerSeccionesPorNivel(nivelSeleccionado);
-
-    contenedor.innerHTML = secciones
-      .map((seccion) => {
-        const activo = seccion === seccionSeleccionada ? " activo" : "";
-
-        return `
-          <button class="filtro${activo}" type="button" data-seccion="${escaparHTML(seccion)}">
-            ${escaparHTML(seccion)}
-          </button>
-        `;
-      })
-      .join("");
-
-    contenedor.querySelectorAll("[data-seccion]").forEach((boton) => {
-      boton.addEventListener("click", () => {
-        seleccionarSeccion(boton.dataset.seccion);
-      });
-    });
+  .horario__tabla-contenedor::-webkit-scrollbar {
+    height: 8px;
   }
 
-  function seleccionarSeccion(seccion) {
-    seccionSeleccionada = seccion;
-
-    renderizarSecciones();
-    renderizarHorario(seccionSeleccionada);
+  .horario__tabla-contenedor::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 999px;
   }
 
-  function mostrarEstado(mensaje) {
-    const resultado = document.getElementById("resultadoHorario");
-    if (!resultado) return;
-
-    const texto = escaparHTML(mensaje);
-    const mensajeNormalizado = limpiar(mensaje).toLowerCase();
-
-    const esCarga = mensajeNormalizado.includes("cargando");
-    const esError = mensajeNormalizado.includes("no se pudieron") || mensajeNormalizado.includes("no se encontró");
-    const esVacio = mensajeNormalizado.includes("no hay horarios");
-
-    const hayNivel = Boolean(nivelSeleccionado);
-    const secciones = hayNivel ? obtenerSeccionesPorNivel(nivelSeleccionado) : [];
-
-    let titulo = "Seleccione una sección";
-    let descripcion = "Primero elija un nivel y luego seleccione la sección que desea consultar.";
-
-    if (esCarga) {
-      titulo = "Cargando horarios";
-      descripcion = "Estamos preparando la información de horarios disponibles.";
-    } else if (esError) {
-      titulo = "No se pudo cargar la información";
-      descripcion = texto;
-    } else if (esVacio) {
-      titulo = "No hay horarios disponibles";
-      descripcion = texto;
-    } else if (hayNivel) {
-      titulo = `Seleccione una sección de ${escaparHTML(nivelSeleccionado)}`;
-      descripcion = "Elija una de las secciones disponibles para ver el horario completo.";
-    }
-
-    const claseEstado = esError ? " horario-estado--error" : esCarga ? " horario-estado--cargando" : "";
-
-    const seccionesHTML = secciones.length > 0
-      ? `
-        <div class="horario-estado__secciones">
-          ${secciones.map((seccion) => `<span>${escaparHTML(seccion)}</span>`).join("")}
-        </div>
-      `
-      : "";
-
-    resultado.innerHTML = `
-      <article class="tarjeta horario-estado${claseEstado}">
-        <div class="horario-estado__icono" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="17" rx="2"></rect>
-            <path d="M16 2v4"></path>
-            <path d="M8 2v4"></path>
-            <path d="M3 10h18"></path>
-            <path d="M8 14h.01"></path>
-            <path d="M12 14h.01"></path>
-            <path d="M16 14h.01"></path>
-            <path d="M8 18h.01"></path>
-            <path d="M12 18h.01"></path>
-          </svg>
-        </div>
-
-        <div class="horario-estado__contenido">
-          <h3>${titulo}</h3>
-          <p>${descripcion}</p>
-
-          ${seccionesHTML}
-
-          <div class="horario-estado__pasos">
-            <span class="horario-estado__paso ${hayNivel ? "completo" : "activo"}">1. Nivel</span>
-            <span class="horario-estado__separador">→</span>
-            <span class="horario-estado__paso ${hayNivel ? "activo" : ""}">2. Sección</span>
-            <span class="horario-estado__separador">→</span>
-            <span class="horario-estado__paso">3. Horario</span>
-          </div>
-        </div>
-      </article>
-    `;
+  .horario__tabla-contenedor::-webkit-scrollbar-thumb {
+    background-color: rgba(43, 86, 58, 0.45);
+    border-radius: 999px;
   }
 
-  function esFilaEspecial(fila) {
-    const lec = limpiar(fila.lec).toUpperCase();
+  .horario-estado {
+    padding: 28px 22px;
+    align-items: flex-start;
+  }
+}
 
-    return lec.includes("RECESO") || lec.includes("ALMUERZO");
+@media (max-width: 560px) {
+  .horario {
+    border-radius: 16px;
   }
 
-  function obtenerTipoEspecial(fila) {
-    const lec = limpiar(fila.lec).toUpperCase();
-
-    if (lec.includes("ALMUERZO")) return "almuerzo";
-    if (lec.includes("RECESO")) return "receso";
-
-    return "";
+  .horario .tarjeta__encabezado {
+    padding: 18px 16px 14px;
   }
 
-  function obtenerTextoEspecial(fila) {
-    const valores = DIAS.map((dia) => limpiar(fila[dia.clave])).filter(Boolean);
-    const valoresUnicos = [...new Set(valores)];
-
-    if (valoresUnicos.length === 1) {
-      return valoresUnicos[0];
-    }
-
-    return "";
+  .horario .etiqueta {
+    font-size: 0.68rem;
+    padding: 5px 10px;
   }
 
-  function obtenerValorDia(fila, dia) {
-    const valor = limpiar(fila[dia.clave]);
-    return valor || "Libre";
+  .horario .tarjeta__titulo {
+    font-size: 1.08rem;
   }
 
-  function renderizarFilaTabla(fila) {
-    const tipoEspecial = obtenerTipoEspecial(fila);
-    const textoEspecial = obtenerTextoEspecial(fila);
-
-    if (esFilaEspecial(fila) && textoEspecial) {
-      return `
-        <tr class="horario__fila horario__fila--${tipoEspecial}">
-          <td>${escaparHTML(fila.lec)}</td>
-          <td>${escaparHTML(fila.horas)}</td>
-          <td colspan="5">${escaparHTML(textoEspecial)}</td>
-        </tr>
-      `;
-    }
-
-    return `
-      <tr class="horario__fila">
-        <td>${escaparHTML(fila.lec)}</td>
-        <td>${escaparHTML(fila.horas)}</td>
-        ${DIAS.map((dia) => `<td>${escaparHTML(obtenerValorDia(fila, dia))}</td>`).join("")}
-      </tr>
-    `;
+  .horario .tarjeta__texto {
+    font-size: 0.86rem;
   }
 
-  function renderizarTarjetaMovil(fila) {
-    const tipoEspecial = obtenerTipoEspecial(fila);
-    const textoEspecial = obtenerTextoEspecial(fila);
-    const claseEspecial = tipoEspecial ? ` horario-movil__tarjeta--${tipoEspecial}` : "";
-
-    if (esFilaEspecial(fila) && textoEspecial) {
-      return `
-        <article class="horario-movil__tarjeta${claseEspecial}">
-          <div class="horario-movil__encabezado">
-            <div>
-              <span class="horario-movil__etiqueta">${escaparHTML(fila.lec)}</span>
-              <h4>${escaparHTML(textoEspecial)}</h4>
-            </div>
-            <span class="horario-movil__hora">${escaparHTML(fila.horas)}</span>
-          </div>
-        </article>
-      `;
-    }
-
-    return `
-      <article class="horario-movil__tarjeta${claseEspecial}">
-        <div class="horario-movil__encabezado">
-          <div>
-            <span class="horario-movil__etiqueta">Lección ${escaparHTML(fila.lec)}</span>
-            <h4>${tipoEspecial ? escaparHTML(fila.lec) : "Horario de clase"}</h4>
-          </div>
-          <span class="horario-movil__hora">${escaparHTML(fila.horas)}</span>
-        </div>
-
-        <div class="horario-movil__dias">
-          ${DIAS.map((dia) => `
-            <div class="horario-movil__dia">
-              <span>${dia.texto}</span>
-              <strong>${escaparHTML(obtenerValorDia(fila, dia))}</strong>
-            </div>
-          `).join("")}
-        </div>
-      </article>
-    `;
+  .horario__tabla-contenedor {
+    padding: 10px;
   }
 
-  function renderizarHorario(seccion) {
-    const resultado = document.getElementById("resultadoHorario");
-    if (!resultado) return;
-
-    const filas = horarios.filter((h) => h.seccion === seccion);
-
-    if (filas.length === 0) {
-      mostrarEstado("No se encontró horario para la sección seleccionada.");
-      return;
-    }
-
-    const profesorGuia = filas[0].profesor_guia || "No indicado";
-
-    const filasTablaHTML = filas.map(renderizarFilaTabla).join("");
-    const tarjetasMovilHTML = filas.map(renderizarTarjetaMovil).join("");
-
-    resultado.innerHTML = `
-      <article class="tarjeta horario">
-        <div class="tarjeta__encabezado">
-          <span class="etiqueta">${escaparHTML(nivelSeleccionado)}</span>
-          <h3 class="tarjeta__titulo">Horario sección ${escaparHTML(seccion)}</h3>
-          <p class="tarjeta__texto">
-            <strong>Profesor guía:</strong> ${escaparHTML(profesorGuia)}
-          </p>
-        </div>
-
-        <div class="horario__tabla-contenedor horario__vista-escritorio">
-          <table class="horario__tabla">
-            <thead>
-              <tr>
-                <th>Lección</th>
-                <th>Hora</th>
-                ${DIAS.map((dia) => `<th>${dia.texto}</th>`).join("")}
-              </tr>
-            </thead>
-            <tbody>
-              ${filasTablaHTML}
-            </tbody>
-          </table>
-        </div>
-
-        <div class="horario__vista-movil">
-          ${tarjetasMovilHTML}
-        </div>
-      </article>
-    `;
+  .horario__tabla {
+    width: 660px;
+    min-width: 660px;
+    font-size: 0.7rem;
   }
 
-  async function iniciarHorarios() {
-    const existePantallaHorarios =
-      document.getElementById("filtrosNivelHorario") &&
-      document.getElementById("filtrosSeccionHorario") &&
-      document.getElementById("resultadoHorario");
-
-    if (!existePantallaHorarios) return;
-
-    try {
-      mostrarEstado("Cargando horarios...");
-
-      await cargarHorarios();
-
-      const niveles = obtenerNiveles();
-
-      if (niveles.length === 0) {
-        mostrarEstado("No hay horarios disponibles por ahora.");
-        return;
-      }
-
-      nivelSeleccionado = niveles[0];
-
-      renderizarNiveles();
-      renderizarSecciones();
-
-      mostrarEstado(
-        `Seleccione una sección de ${nivelSeleccionado} para consultar el horario correspondiente.`
-      );
-    } catch (error) {
-      mostrarEstado("No se pudieron cargar los horarios. Revise que el archivo CSV exista en la carpeta data.");
-      console.error(error);
-    }
+  .horario__tabla thead th {
+    padding: 8px 5px;
+    font-size: 0.68rem;
   }
 
-  document.addEventListener("DOMContentLoaded", iniciarHorarios);
-})();
+  .horario__tabla td {
+    padding: 7px 5px;
+    font-size: 0.68rem;
+    line-height: 1.2;
+  }
+
+  .horario__tabla th:nth-child(1),
+  .horario__tabla td:nth-child(1) {
+    width: 50px;
+  }
+
+  .horario__tabla th:nth-child(2),
+  .horario__tabla td:nth-child(2) {
+    width: 82px;
+  }
+
+  .horario__tabla th:nth-child(n+3),
+  .horario__tabla td:nth-child(n+3) {
+    width: 105px;
+  }
+
+  .horario-estado {
+    flex-direction: column;
+    padding: 26px 20px;
+  }
+
+  .horario-estado__icono {
+    width: 62px;
+    height: 62px;
+    min-width: 62px;
+    border-radius: 18px;
+  }
+
+  .horario-estado__icono svg {
+    width: 31px;
+    height: 31px;
+  }
+
+  .horario-estado__contenido h3 {
+    font-size: 1.15rem;
+  }
+
+  .horario-estado__pasos {
+    gap: 8px;
+  }
+
+  .horario-estado__separador {
+    display: none;
+  }
+}
