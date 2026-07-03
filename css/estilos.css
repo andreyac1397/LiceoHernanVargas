@@ -1089,7 +1089,7 @@ body[data-pagina="nosotros"] .datos-institucionales .datos {
   width: 760px;
   max-width: 760px;
   justify-self: end;
-  transform: translateX(320px);
+  transform: translateX(250px);
 }
 
 @media (max-width: 1200px) {
