@@ -366,3 +366,8 @@ body[data-pagina="biblioteca"] .biblioteca-documento {
     min-height: 380px;
   }
 }
+
+/* Espacio del botón para llenar la boleta de préstamo */
+.biblioteca-formulario-accion {
+  margin-top: 2rem;
+}
