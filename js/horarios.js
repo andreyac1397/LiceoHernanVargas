@@ -110,7 +110,7 @@
     });
   }
 
-  /* Por ahora detectamos el nivel según la sección */
+  /* Detecta el nivel según la sección */
   function detectarNivel(seccion) {
     const valor = limpiar(seccion);
 
@@ -236,80 +236,80 @@
   }
 
   function mostrarEstado(mensaje) {
-  const resultado = document.getElementById("resultadoHorario");
-  if (!resultado) return;
+    const resultado = document.getElementById("resultadoHorario");
+    if (!resultado) return;
 
-  const texto = escaparHTML(mensaje);
-  const mensajeNormalizado = limpiar(mensaje).toLowerCase();
+    const texto = escaparHTML(mensaje);
+    const mensajeNormalizado = limpiar(mensaje).toLowerCase();
 
-  const esCarga = mensajeNormalizado.includes("cargando");
-  const esError = mensajeNormalizado.includes("no se pudieron") || mensajeNormalizado.includes("no se encontró");
-  const esVacio = mensajeNormalizado.includes("no hay horarios");
+    const esCarga = mensajeNormalizado.includes("cargando");
+    const esError = mensajeNormalizado.includes("no se pudieron") || mensajeNormalizado.includes("no se encontró");
+    const esVacio = mensajeNormalizado.includes("no hay horarios");
 
-  const hayNivel = Boolean(nivelSeleccionado);
-  const secciones = hayNivel ? obtenerSeccionesPorNivel(nivelSeleccionado) : [];
+    const hayNivel = Boolean(nivelSeleccionado);
+    const secciones = hayNivel ? obtenerSeccionesPorNivel(nivelSeleccionado) : [];
 
-  let titulo = "Seleccione una sección";
-  let descripcion = "Primero elija un nivel y luego seleccione la sección que desea consultar.";
+    let titulo = "Seleccione una sección";
+    let descripcion = "Primero elija un nivel y luego seleccione la sección que desea consultar.";
 
-  if (esCarga) {
-    titulo = "Cargando horarios";
-    descripcion = "Estamos preparando la información de horarios disponibles.";
-  } else if (esError) {
-    titulo = "No se pudo cargar la información";
-    descripcion = texto;
-  } else if (esVacio) {
-    titulo = "No hay horarios disponibles";
-    descripcion = texto;
-  } else if (hayNivel) {
-    titulo = `Seleccione una sección de ${escaparHTML(nivelSeleccionado)}`;
-    descripcion = "Elija una de las secciones disponibles para ver el horario completo.";
-  }
+    if (esCarga) {
+      titulo = "Cargando horarios";
+      descripcion = "Estamos preparando la información de horarios disponibles.";
+    } else if (esError) {
+      titulo = "No se pudo cargar la información";
+      descripcion = texto;
+    } else if (esVacio) {
+      titulo = "No hay horarios disponibles";
+      descripcion = texto;
+    } else if (hayNivel) {
+      titulo = `Seleccione una sección de ${escaparHTML(nivelSeleccionado)}`;
+      descripcion = "Elija una de las secciones disponibles para ver el horario completo.";
+    }
 
-  const claseEstado = esError ? " horario-estado--error" : esCarga ? " horario-estado--cargando" : "";
+    const claseEstado = esError ? " horario-estado--error" : esCarga ? " horario-estado--cargando" : "";
 
-  const seccionesHTML = secciones.length > 0
-    ? `
-      <div class="horario-estado__secciones">
-        ${secciones.map((seccion) => `<span>${escaparHTML(seccion)}</span>`).join("")}
-      </div>
-    `
-    : "";
-
-  resultado.innerHTML = `
-    <article class="tarjeta horario-estado${claseEstado}">
-      <div class="horario-estado__icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="17" rx="2"></rect>
-          <path d="M16 2v4"></path>
-          <path d="M8 2v4"></path>
-          <path d="M3 10h18"></path>
-          <path d="M8 14h.01"></path>
-          <path d="M12 14h.01"></path>
-          <path d="M16 14h.01"></path>
-          <path d="M8 18h.01"></path>
-          <path d="M12 18h.01"></path>
-        </svg>
-      </div>
-
-      <div class="horario-estado__contenido">
-        <h3>${titulo}</h3>
-        <p>${descripcion}</p>
-
-        ${seccionesHTML}
-
-        <div class="horario-estado__pasos">
-          <span class="horario-estado__paso ${hayNivel ? "completo" : "activo"}">1. Nivel</span>
-          <span class="horario-estado__separador">→</span>
-          <span class="horario-estado__paso ${hayNivel ? "activo" : ""}">2. Sección</span>
-          <span class="horario-estado__separador">→</span>
-          <span class="horario-estado__paso">3. Horario</span>
+    const seccionesHTML = secciones.length > 0
+      ? `
+        <div class="horario-estado__secciones">
+          ${secciones.map((seccion) => `<span>${escaparHTML(seccion)}</span>`).join("")}
         </div>
-      </div>
-    </article>
-  `;
-}
+      `
+      : "";
+
+    resultado.innerHTML = `
+      <article class="tarjeta horario-estado${claseEstado}">
+        <div class="horario-estado__icono" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+            <path d="M16 2v4"></path>
+            <path d="M8 2v4"></path>
+            <path d="M3 10h18"></path>
+            <path d="M8 14h.01"></path>
+            <path d="M12 14h.01"></path>
+            <path d="M16 14h.01"></path>
+            <path d="M8 18h.01"></path>
+            <path d="M12 18h.01"></path>
+          </svg>
+        </div>
+
+        <div class="horario-estado__contenido">
+          <h3>${titulo}</h3>
+          <p>${descripcion}</p>
+
+          ${seccionesHTML}
+
+          <div class="horario-estado__pasos">
+            <span class="horario-estado__paso ${hayNivel ? "completo" : "activo"}">1. Nivel</span>
+            <span class="horario-estado__separador">→</span>
+            <span class="horario-estado__paso ${hayNivel ? "activo" : ""}">2. Sección</span>
+            <span class="horario-estado__separador">→</span>
+            <span class="horario-estado__paso">3. Horario</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
 
   function esFilaEspecial(fila) {
     const lec = limpiar(fila.lec).toUpperCase();
@@ -337,6 +337,75 @@
     return "";
   }
 
+  function obtenerValorDia(fila, dia) {
+    const valor = limpiar(fila[dia.clave]);
+    return valor || "Libre";
+  }
+
+  function renderizarFilaTabla(fila) {
+    const tipoEspecial = obtenerTipoEspecial(fila);
+    const textoEspecial = obtenerTextoEspecial(fila);
+
+    if (esFilaEspecial(fila) && textoEspecial) {
+      return `
+        <tr class="horario__fila horario__fila--${tipoEspecial}">
+          <td>${escaparHTML(fila.lec)}</td>
+          <td>${escaparHTML(fila.horas)}</td>
+          <td colspan="5">${escaparHTML(textoEspecial)}</td>
+        </tr>
+      `;
+    }
+
+    return `
+      <tr class="horario__fila">
+        <td>${escaparHTML(fila.lec)}</td>
+        <td>${escaparHTML(fila.horas)}</td>
+        ${DIAS.map((dia) => `<td>${escaparHTML(obtenerValorDia(fila, dia))}</td>`).join("")}
+      </tr>
+    `;
+  }
+
+  function renderizarTarjetaMovil(fila) {
+    const tipoEspecial = obtenerTipoEspecial(fila);
+    const textoEspecial = obtenerTextoEspecial(fila);
+    const claseEspecial = tipoEspecial ? ` horario-movil__tarjeta--${tipoEspecial}` : "";
+
+    if (esFilaEspecial(fila) && textoEspecial) {
+      return `
+        <article class="horario-movil__tarjeta${claseEspecial}">
+          <div class="horario-movil__encabezado">
+            <div>
+              <span class="horario-movil__etiqueta">${escaparHTML(fila.lec)}</span>
+              <h4>${escaparHTML(textoEspecial)}</h4>
+            </div>
+            <span class="horario-movil__hora">${escaparHTML(fila.horas)}</span>
+          </div>
+        </article>
+      `;
+    }
+
+    return `
+      <article class="horario-movil__tarjeta${claseEspecial}">
+        <div class="horario-movil__encabezado">
+          <div>
+            <span class="horario-movil__etiqueta">Lección ${escaparHTML(fila.lec)}</span>
+            <h4>${tipoEspecial ? escaparHTML(fila.lec) : "Horario de clase"}</h4>
+          </div>
+          <span class="horario-movil__hora">${escaparHTML(fila.horas)}</span>
+        </div>
+
+        <div class="horario-movil__dias">
+          ${DIAS.map((dia) => `
+            <div class="horario-movil__dia">
+              <span>${dia.texto}</span>
+              <strong>${escaparHTML(obtenerValorDia(fila, dia))}</strong>
+            </div>
+          `).join("")}
+        </div>
+      </article>
+    `;
+  }
+
   function renderizarHorario(seccion) {
     const resultado = document.getElementById("resultadoHorario");
     if (!resultado) return;
@@ -350,30 +419,8 @@
 
     const profesorGuia = filas[0].profesor_guia || "No indicado";
 
-    const filasHTML = filas
-      .map((fila) => {
-        const tipoEspecial = obtenerTipoEspecial(fila);
-        const textoEspecial = obtenerTextoEspecial(fila);
-
-        if (esFilaEspecial(fila) && textoEspecial) {
-          return `
-            <tr class="horario__fila horario__fila--${tipoEspecial}">
-              <td>${escaparHTML(fila.lec)}</td>
-              <td>${escaparHTML(fila.horas)}</td>
-              <td colspan="5">${escaparHTML(textoEspecial)}</td>
-            </tr>
-          `;
-        }
-
-        return `
-          <tr class="horario__fila">
-            <td>${escaparHTML(fila.lec)}</td>
-            <td>${escaparHTML(fila.horas)}</td>
-            ${DIAS.map((dia) => `<td>${escaparHTML(fila[dia.clave])}</td>`).join("")}
-          </tr>
-        `;
-      })
-      .join("");
+    const filasTablaHTML = filas.map(renderizarFilaTabla).join("");
+    const tarjetasMovilHTML = filas.map(renderizarTarjetaMovil).join("");
 
     resultado.innerHTML = `
       <article class="tarjeta horario">
@@ -385,7 +432,7 @@
           </p>
         </div>
 
-        <div class="horario__tabla-contenedor">
+        <div class="horario__tabla-contenedor horario__vista-escritorio">
           <table class="horario__tabla">
             <thead>
               <tr>
@@ -395,9 +442,13 @@
               </tr>
             </thead>
             <tbody>
-              ${filasHTML}
+              ${filasTablaHTML}
             </tbody>
           </table>
+        </div>
+
+        <div class="horario__vista-movil">
+          ${tarjetasMovilHTML}
         </div>
       </article>
     `;
