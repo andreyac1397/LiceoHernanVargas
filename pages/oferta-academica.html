@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oferta académica | Liceo Hernán Vargas Ramírez</title>
+  <meta name="description" content="Áreas y materias que ofrece el Liceo Hernán Vargas Ramírez." />
+  <meta name="theme-color" content="#2b563a" />
+  <link rel="stylesheet" href="../css/estilos.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <link rel="icon" href="../assets/logos/logo-liceo.jpg" />
+</head>
+
+<body data-pagina="oferta">
+  <div id="encabezado"></div>
+
+  <main>
+    <section class="banda">
+      <div class="contenedor">
+        <p class="migas"><a href="../index.html">Inicio</a> / Oferta académica</p>
+        <h1>Oferta académica</h1>
+        <p>
+          Conoce las áreas de formación que ofrece el Liceo Hernán Vargas Ramírez
+          en secundaria académica.
+        </p>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="encabezado-seccion texto-centrado">
+          <h2 class="titulo-seccion">Programas de estudio</h2>
+          <p class="subtitulo-seccion" style="margin: 0 auto">
+            La oferta académica se organiza en III Ciclo y Educación Diversificada.
+          </p>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros" id="filtrosOferta">
+          <button class="filtro activo" data-filtro="todos">Todos</button>
+          <button class="filtro" data-filtro="tercer-ciclo">III Ciclo</button>
+          <button class="filtro" data-filtro="diversificada">Educación Diversificada</button>
+        </div>
+
+        <!--
+          En cada href="#" pegá el link del PDF del programa de estudio del MEP.
+          No se modificaron estilos: se reutilizan clases existentes del sitio.
+        -->
+
+        <div class="cuadricula cuadricula--3" id="tarjetasOferta">
+
+          <!-- Materias presentes en III Ciclo y Educación Diversificada -->
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Español</h3>
+            <p class="tarjeta__texto">
+              Desarrollo de la comprensión lectora, expresión escrita, comunicación oral y análisis de textos.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/espanol3ciclo_diversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Matemáticas</h3>
+            <p class="tarjeta__texto">
+              Fortalece el razonamiento lógico, la resolución de problemas, álgebra, geometría y análisis de datos.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/matematica.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Estudios Sociales</h3>
+            <p class="tarjeta__texto">
+              Estudia la historia, geografía, sociedad, cultura e identidad nacional y mundial.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/esociales3ciclo_diversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Educación Cívica</h3>
+            <p class="tarjeta__texto">
+              Promueve la ciudadanía, la participación democrática, los derechos, deberes y la convivencia social.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/civica3ciclo_diversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Inglés</h3>
+            <p class="tarjeta__texto">
+              Desarrolla habilidades de comunicación oral y escrita en una segunda lengua.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/ingles3ciclo_diversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Francés</h3>
+            <p class="tarjeta__texto">
+              Favorece el aprendizaje de una lengua extranjera y el acercamiento a otras culturas.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/frances3ciclo_diversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Educación Religiosa</h3>
+            <p class="tarjeta__texto">
+              Fortalece la formación humana, ética, espiritual y el respeto hacia los demás.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/educreligiosa3ciclo-1996.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Orientación</h3>
+            <p class="tarjeta__texto">
+              Acompaña al estudiante en su desarrollo personal, social, académico y vocacional.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/orientacion-nuevo.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Psicología</h3>
+            <p class="tarjeta__texto">
+              Apoya el desarrollo personal, emocional y social de la población estudiantil.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/psicologia3cicloydiversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Educación Física</h3>
+            <p class="tarjeta__texto">
+              Promueve la actividad física, el deporte, la salud y los hábitos de vida saludable.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/educfisica3cicloydiversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo diversificada">
+            <span class="etiqueta">III Ciclo y Diversificada</span>
+            <h3 class="tarjeta__titulo">Educación Musical</h3>
+            <p class="tarjeta__texto">
+              Fortalece la expresión artística, apreciación musical, creatividad y sensibilidad cultural.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/musica3cicloydiversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <!-- Materias propias de III Ciclo -->
+
+          <article class="tarjeta" data-categoria="tercer-ciclo">
+            <span class="etiqueta">III Ciclo</span>
+            <h3 class="tarjeta__titulo">Ciencias</h3>
+            <p class="tarjeta__texto">
+              Introduce el estudio de los fenómenos naturales, el ambiente, la materia, la energía y la vida.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/ciencias3ciclo.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo">
+            <span class="etiqueta">III Ciclo</span>
+            <h3 class="tarjeta__titulo">Artes Industriales</h3>
+            <p class="tarjeta__texto">
+              Desarrolla habilidades prácticas, creatividad, uso de herramientas y resolución de problemas técnicos.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/artesindustriales3ciclo.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo">
+            <span class="etiqueta">III Ciclo</span>
+            <h3 class="tarjeta__titulo">Artes Plásticas</h3>
+            <p class="tarjeta__texto">
+              Promueve la creatividad, expresión visual, apreciación artística y desarrollo de habilidades manuales.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/artesplasticas3cicloydiversificada.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="tercer-ciclo">
+            <span class="etiqueta">III Ciclo</span>
+            <h3 class="tarjeta__titulo">Informática</h3>
+            <p class="tarjeta__texto">
+              Área institucional orientada al uso de herramientas digitales, tecnología y habilidades informáticas.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="#" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <!-- Materias propias de Educación Diversificada -->
+
+          <article class="tarjeta" data-categoria="diversificada">
+            <span class="etiqueta">Educación Diversificada</span>
+            <h3 class="tarjeta__titulo">Biología</h3>
+            <p class="tarjeta__texto">
+              Profundiza en el estudio de los seres vivos, los ecosistemas, la genética y los procesos biológicos.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/biologia2017.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="diversificada">
+            <span class="etiqueta">Educación Diversificada</span>
+            <h3 class="tarjeta__titulo">Física matematica</h3>
+            <p class="tarjeta__texto">
+              Estudia el movimiento, la energía, la materia, las fuerzas y otros fenómenos físicos.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/fisica2018.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="diversificada">
+            <span class="etiqueta">Educación Diversificada</span>
+            <h3 class="tarjeta__titulo">Química</h3>
+            <p class="tarjeta__texto">
+              Analiza la composición, estructura, propiedades y transformaciones de la materia.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/quimica2018.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="diversificada">
+            <span class="etiqueta">Educación Diversificada</span>
+            <h3 class="tarjeta__titulo">Filosofía</h3>
+            <p class="tarjeta__texto">
+              Desarrolla el pensamiento crítico, la reflexión, el análisis de ideas y la argumentación.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="https://www.mep.go.cr/sites/default/files/media/filosofia2017.pdf" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-categoria="diversificada">
+            <span class="etiqueta">Educación Diversificada</span>
+            <h3 class="tarjeta__titulo">Tecnología</h3>
+            <p class="tarjeta__texto">
+              Área institucional orientada al uso responsable de herramientas tecnológicas y competencias digitales.
+            </p>
+            <div class="tarjeta__pie">
+              <a class="boton boton--primario boton--pequeno" href="#" target="_blank" rel="noopener noreferrer">
+                Ver plan de estudio
+              </a>
+            </div>
+          </article>
+
+        </div>
+
+        <p class="estado" style="margin-top: 2rem">
+          Los programas de estudio corresponden al Ministerio de Educación Pública.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <div id="pie"></div>
+  <script src="../js/main.js"></script>
+  <script src="../js/filtros.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      activarFiltros("filtrosOferta", "tarjetasOferta");
+    });
+  </script>
+</body>
+
+</html>
